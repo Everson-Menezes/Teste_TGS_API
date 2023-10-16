@@ -48,7 +48,7 @@ namespace Teste_TGS_API.Repositories
             {
                 if (ex.Number == 2627)
                 {
-                    //return email.         Console.WriteLine("O endereço de e-mail já existe no banco de dados.");
+                    //Ajustar  Console.WriteLine("O endereço de e-mail já existe no banco de dados.");
                 }
             }
 
