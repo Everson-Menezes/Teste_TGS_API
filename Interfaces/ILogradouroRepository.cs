@@ -1,6 +1,6 @@
-using Teste_TGS.Models;
+using Teste_TGS_API.Models;
 
-namespace Teste_TGS.Interfaces
+namespace Teste_TGS_API.Interfaces
 {
     public interface ILogradouroRepository
     {

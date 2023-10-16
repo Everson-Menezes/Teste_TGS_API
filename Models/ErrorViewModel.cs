@@ -1,4 +1,4 @@
-namespace Teste_TGS.Models;
+namespace Teste_TGS_API.Models;
 
 public class ErrorViewModel
 {

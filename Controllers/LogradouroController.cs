@@ -1,10 +1,12 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Teste_TGS.Interfaces;
-using Teste_TGS.Models;
+using Teste_TGS_API.Interfaces;
+using Teste_TGS_API.Models;
 
 namespace Teste_TGS.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/logradouro")]
 public class LogradouroController : Controller

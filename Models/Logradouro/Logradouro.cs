@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Teste_TGS.Models
+namespace Teste_TGS_API.Models
 {
     public class Logradouro
     {

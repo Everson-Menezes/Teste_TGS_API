@@ -1,5 +1,9 @@
-using Teste_TGS.Interfaces;
-using Teste_TGS.Repositories;
+using Teste_TGS_API.Interfaces;
+using Teste_TGS_API.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient("localhost").ConfigurePrimaryHttpMessageHandler(_ => new HttpClientHandler
@@ -8,11 +12,54 @@ builder.Services.AddHttpClient("localhost").ConfigurePrimaryHttpMessageHandler(_
 
 });
 
+
+// Adding Authentication  
+// builder.Services.AddAuthentication(options =>
+// {
+//     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+// }).AddJwtBearer("Authentication", options =>
+//             {
+//                 options.SaveToken = true;
+//                 options.RequireHttpsMetadata = false;
+//                 options.TokenValidationParameters = new TokenValidationParameters()
+//                 {
+//                     ValidateIssuer = true,
+//                     ValidateAudience = true,
+//                     ValidAudience = builder.Configuration["Authentication:ValidAudience"],
+//                     ValidIssuer = builder.Configuration["Authentication:ValidIssuer"],
+//                     ClockSkew = TimeSpan.Zero,
+//                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Authentication:Secret"]))
+//                 };
+//             });
+
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Authentication:ValidAudience"],
+        ValidIssuer = builder.Configuration["Authentication:ValidIssuer"],
+        ClockSkew = TimeSpan.Zero,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Authentication:Secret"]))
+    };
+});
+
+
+
 // Add services to the container.
 
 builder.Services.AddScoped<IDapperContext, DapperContext>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<ILogradouroRepository, LogradouroRepositry>();
+builder.Services.AddScoped<IJwtService, AuthServices>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -29,6 +76,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -1,10 +1,12 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Teste_TGS.Interfaces;
-using Teste_TGS.Models;
+using Teste_TGS_API.Interfaces;
+using Teste_TGS_API.Models;
 
 namespace Teste_TGS.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/cliente")]
 public class ClienteController : Controller
@@ -18,6 +20,7 @@ public class ClienteController : Controller
         _clienteRepository = clienteRepository;
     }
 
+    [AllowAnonymous]
     [HttpGet, ActionName("get")]
     public IActionResult Get()
     {
@@ -29,7 +32,6 @@ public class ClienteController : Controller
 
         return Json(clientes);
     }
-
     [HttpPost("create"), ActionName("create")]
     public IActionResult Create(Cliente cliente)
     {

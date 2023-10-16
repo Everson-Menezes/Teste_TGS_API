@@ -1,6 +1,6 @@
 using System.Data;
 using System.Data.SqlClient;
-using Teste_TGS.Interfaces;
+using Teste_TGS_API.Interfaces;
 
 public class DapperContext : IDapperContext
 {
